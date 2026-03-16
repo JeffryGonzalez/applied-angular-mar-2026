@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "pic": "npx gitpick -o JeffryGonzalez/applied-angular-mar-2026 ../instructor-code",
+    "start": "ng serve -o",
     "start:prod": "ng serve --configuration production",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

@@ -1,0 +1,51 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+  "elements": [
+    {
+      "id": "_vLdLbsHy-MzBtcCxCi3P",
+      "type": "text",
+      "x": 328,
+      "y": 149,
+      "width": 926.939453125,
+      "height": 175,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0",
+      "roundness": null,
+      "seed": 768653768,
+      "version": 287,
+      "versionNonce": 165844152,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1773689508634,
+      "link": null,
+      "locked": false,
+      "text": "I do my best to do things and teach things to the best of my knowledge at the time I teach.\nI reserve the right to change my mind in the future.\n\n\n\nMy opinions don't have to match yours. Give me the benefit of the doubt.\n",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "I do my best to do things and teach things to the best of my knowledge at the time I teach.\nI reserve the right to change my mind in the future.\n\n\n\nMy opinions don't have to match yours. Give me the benefit of the doubt.\n",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": 20,
+    "gridStep": 5,
+    "gridModeEnabled": false,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}

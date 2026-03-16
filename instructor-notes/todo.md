@@ -1,2 +1,6 @@
 - [ ] - Students: During lunch - In the VM, log into your Github account.
-    - [ ] config
+    - [ ] git config --global user.name ""
+    - [ ] git config --global user.email ""
+    - [ ] git init
+    - [ ] git add .
+    - [ ] git commit -m "Message"

@@ -15,6 +15,13 @@ const realRoutes: Routes = [
         (r) => r.profileLandingFeatureRoutes,
       ),
   },
+  {
+    path: 'demos',
+    loadChildren: () =>
+      import('./areas/signalsdemos/signalsdemos-landing/signalsdemos.routes').then(
+        (r) => r.signalsdemosFeatureRoutes,
+      ),
+  },
 ];
 
 const devRoutes: Routes = [
