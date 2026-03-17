@@ -1,4 +1,4 @@
-import { Component, computed, Input, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-demos-fizz-buzz',
