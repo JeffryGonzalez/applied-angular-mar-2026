@@ -74,7 +74,7 @@ const fakeResources = [
 ];
 
 export const resourceHandlers = [
-  http.get('https://ang.hypertheory-labs.com/api/resources', async () => {
+  http.get('/api/resources', async () => {
     await delay(); // ~100-200ms
     return HttpResponse.json(fakeResources);
   }),

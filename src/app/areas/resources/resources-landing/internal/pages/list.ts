@@ -1,6 +1,7 @@
 import { httpResource } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
+import { ResourceApiItemModel } from '../types';
 
 @Component({
   selector: 'app-resources-pages-list',
@@ -36,7 +37,5 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
   styles: ``,
 })
 export class ListPage {
-  linksResource = httpResource<{ id: string; title: string; url: string }[]>(
-    () => 'https://ang.hypertheory-labs.com/api/resources',
-  );
+  linksResource = httpResource<ResourceApiItemModel[]>(() => '/api/resources');
 }

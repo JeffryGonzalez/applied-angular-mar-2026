@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './internal/home';
 import { HomePage } from './internal/pages/home';
 import { ListPage } from './internal/pages/list';
+import { AddPage } from './internal/pages/add';
 
 export const resourcesFeatureRoutes: Routes = [
   {
@@ -16,6 +17,10 @@ export const resourcesFeatureRoutes: Routes = [
       {
         path: 'list',
         component: ListPage,
+      },
+      {
+        path: 'add',
+        component: AddPage,
       },
     ],
   },

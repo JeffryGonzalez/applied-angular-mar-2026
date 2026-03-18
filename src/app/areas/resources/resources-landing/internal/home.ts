@@ -14,5 +14,9 @@ export class Home {
       title: 'List of Links',
       path: 'list',
     },
+    {
+      title: 'Add a Link',
+      path: 'add',
+    },
   ]);
 }
