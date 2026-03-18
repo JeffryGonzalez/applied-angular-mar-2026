@@ -37,6 +37,7 @@ export const counterStore = signalStore(
       reset: () => patchState(store, { current: 0 }),
     };
   }),
+
   withHooks({
     onInit() {
       console.log('Created a counter store..again!');
