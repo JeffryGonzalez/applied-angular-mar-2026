@@ -1,13 +1,11 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed } from '@angular/core';
-import { BasicCard } from '@ht/shared/ui-common/cards/basic-card';
 import { BooksApiItemModel } from './types';
 
 @Component({
   selector: 'app-books-summary',
-  imports: [BasicCard],
-  template: `<app-ui-card-basic title="My Bookshelf">
-    <p>
+  imports: [],
+  template: `<p>
       Your collection contains
       <span class="text-2xl text-secondary">{{ totalBooks() }}</span> books.
     </p>
@@ -20,8 +18,7 @@ import { BooksApiItemModel } from './types';
     <p>
       The average book in your collection is
       <span class="text-2xl text-secondary">{{ averagePages() }}</span> pages long.
-    </p>
-  </app-ui-card-basic>`,
+    </p>`,
   styles: ``,
 })
 export class Summary {

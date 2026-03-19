@@ -5,12 +5,18 @@ import { BooksApiItemModel } from '../types';
 import { JsonPipe } from '@angular/common';
 import { BasicCard } from '@ht/shared/ui-common/cards/basic-card';
 import { Summary } from '../summary';
+import { Sort } from '../sort';
 
 @Component({
   selector: 'app-books-pages-list',
-  imports: [PageLayout, JsonPipe, BasicCard, Summary],
+  imports: [PageLayout, JsonPipe, BasicCard, Summary, Sort],
   template: `<app-ui-page title="List">
-    <app-books-summary class="m-4"></app-books-summary>
+    <app-ui-card-basic class="m-4" title="My Bookshelf">
+      <div class="flex justify-between">
+        <app-books-summary></app-books-summary>
+        <app-books-sort></app-books-sort>
+      </div>
+    </app-ui-card-basic>
     <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
       @for (book of booksResource.value(); track book.id) {
         <app-ui-card-basic [title]="book.title">
