@@ -1,33 +1,35 @@
-import { httpResource } from '@angular/common/http';
-import { Component, computed } from '@angular/core';
-import { BooksApiItemModel } from './types';
+import { Component, computed, inject } from '@angular/core';
+import { booksStore } from '../data/books-store';
 
 @Component({
   selector: 'app-books-summary',
   imports: [],
   template: `<p>
       Your collection contains
-      <span class="text-2xl text-secondary">{{ totalBooks() }}</span> books.
+      <span class="text-2xl text-secondary">{{ booksStore.totalBooks() }}</span> books.
     </p>
-    <p>
-      The oldest book was published in
-      <span class="text-2xl text-secondary">{{ earliestYear() }}</span
-      >. The newest was published in <span class="text-2xl text-secondary">{{ latestYear() }}</span
-      >.
-    </p>
-    <p>
-      The average book in your collection is
-      <span class="text-2xl text-secondary">{{ averagePages() }}</span> pages long.
-    </p>`,
+    @if (booksStore.totalBooks() > 0) {
+      <p>
+        The oldest book was published in
+        <span class="text-2xl text-secondary">{{ earliestYear() }}</span
+        >. The newest was published in
+        <span class="text-2xl text-secondary">{{ latestYear() }}</span
+        >.
+      </p>
+      <p>
+        The average book in your collection is
+        <span class="text-2xl text-secondary">{{ averagePages() }}</span> pages long.
+      </p>
+    } @else {
+      <p>Add books to see your stats! This is not implemented but we can pretend, right?</p>
+    } `,
   styles: ``,
 })
 export class Summary {
-  booksResource = httpResource<BooksApiItemModel[]>(() => '/api/books');
-
-  totalBooks = computed(() => this.booksResource.value()?.length || 0);
+  booksStore = inject(booksStore);
 
   booksSortedByYear = computed(() => {
-    const books = this.booksResource.value();
+    const books = this.booksStore.books();
 
     return books?.toSorted((book) => book.year);
   });
@@ -35,17 +37,17 @@ export class Summary {
   earliestYear = computed(() => {
     const booksByYear = this.booksSortedByYear();
 
-    return booksByYear?.[0].year;
+    return booksByYear?.[0]?.year;
   });
 
   latestYear = computed(() => {
     const booksByYear = this.booksSortedByYear();
 
-    return booksByYear?.[booksByYear.length - 1].year;
+    return booksByYear?.[booksByYear.length - 1]?.year;
   });
 
   averagePages = computed(() => {
-    const books = this.booksResource.value();
+    const books = this.booksStore.books();
 
     if (!books || books.length < 1) {
       return 0;

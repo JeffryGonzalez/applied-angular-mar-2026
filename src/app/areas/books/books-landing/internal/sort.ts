@@ -7,6 +7,7 @@ import { booksStore } from '../data/books-store';
   template: `<div class="flex flex-col">
     <div class="flex justify-center-safe mb-1"><h2>Sort By</h2></div>
     <div class="flex">
+      <!-- TODO: was getting bogged down in UI choices so I went simple, but coming up with a better design and implementing asc/desc would be neat -->
       <button
         class="btn"
         [disabled]="booksStore.sort() === 'title'"

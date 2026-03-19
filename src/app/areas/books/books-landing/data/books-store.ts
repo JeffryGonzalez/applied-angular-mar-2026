@@ -3,7 +3,6 @@ import {
   patchState,
   signalStore,
   withComputed,
-  withHooks,
   withMethods,
   withProps,
   withState,
@@ -21,6 +20,7 @@ type BookState = {
 export const booksStore = signalStore(
   withDevtools('Books Store'),
   withState<BookState>({ sort: 'title' }),
+  // TODO: I was able to get loading the books via httpResource in the store working but it's a little janky with the multiple withComputed, would like to revisit this
   withProps(() => {
     return {
       _books: httpResource<BooksApiItemModel[]>(() => '/api/books'),
@@ -28,6 +28,7 @@ export const booksStore = signalStore(
   }),
   withComputed((store) => {
     return {
+      isLoading: computed(() => store._books.isLoading()),
       books: computed(() => {
         return store._books.value() || [];
       }),
@@ -35,6 +36,7 @@ export const booksStore = signalStore(
   }),
   withComputed((store) => {
     return {
+      // TODO: I don't think I took the best approach since now I'd have to duplicate code to get some of my stats from different sorts, probably needs a rethink
       sortedBooks: computed(() => {
         const sort = store.sort();
 
@@ -48,6 +50,7 @@ export const booksStore = signalStore(
           }
         });
       }),
+      totalBooks: computed(() => store.books().length),
     };
   }),
 
