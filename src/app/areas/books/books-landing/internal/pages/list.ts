@@ -1,11 +1,10 @@
-import { httpResource } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { BooksApiItemModel } from '../types';
 import { JsonPipe } from '@angular/common';
 import { BasicCard } from '@ht/shared/ui-common/cards/basic-card';
 import { Summary } from '../summary';
 import { Sort } from '../sort';
+import { booksStore } from '../../data/books-store';
 
 @Component({
   selector: 'app-books-pages-list',
@@ -18,7 +17,7 @@ import { Sort } from '../sort';
       </div>
     </app-ui-card-basic>
     <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
-      @for (book of booksResource.value(); track book.id) {
+      @for (book of booksStore.sortedBooks(); track book.id) {
         <app-ui-card-basic [title]="book.title">
           <div class="flex gap-1">
             <span>{{ book.title }}</span>
@@ -32,5 +31,5 @@ import { Sort } from '../sort';
   styles: ``,
 })
 export class ListPage {
-  booksResource = httpResource<BooksApiItemModel[]>(() => '/api/books');
+  booksStore = inject(booksStore);
 }
