@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './internal/home';
 import { HomePage } from './internal/pages/home';
-
+import { TimerPage } from './internal/pages/timer';
 export const pomodoroFeatureRoutes: Routes = [
   {
     path: '',
@@ -11,6 +11,11 @@ export const pomodoroFeatureRoutes: Routes = [
       {
         path: '',
         component: HomePage,
+      },
+      {
+        path: 'timer',
+        title: 'Timer',
+        component: TimerPage,
       },
     ],
   },
