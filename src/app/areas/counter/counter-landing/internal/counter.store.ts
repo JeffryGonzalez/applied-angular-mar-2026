@@ -6,8 +6,22 @@ import { signal } from '@angular/core';
 })
 export class CounterStoreService {
   step = signal(1);
+  count = signal(0);
 
   setStep(value: number) {
     this.step.set(value);
   }
+
+  increment() {
+    this.count.update(current => current + this.step());
+  }
+
+  decrement() {
+    this.count.update(current => current - this.step());
+  }
+
+  reset() {
+    this.count.set(0);
+  }
 }
+
