@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { ResourceApiCreateModel } from '../types';
 import { form, FormField, FormRoot, minLength, required } from '@angular/forms/signals';
@@ -71,7 +71,14 @@ export class AddPage {
       submission: {
         action: async (form) => {
           const val = form().value();
-          console.log(val);
+          // note: no error handling on this stuff now - just no time. let's be optimistic.
+          await fetch('/api/resources', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(val),
+          });
         },
         onInvalid: (form) => {
           form().errorSummary()[0]?.fieldTree().focusBoundControl();

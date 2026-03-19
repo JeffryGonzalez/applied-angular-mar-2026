@@ -1,8 +1,11 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
+  PreloadAllModules,
+  PreloadingStrategy,
   provideRouter,
   withComponentInputBinding,
   withExperimentalAutoCleanupInjectors,
+  withPreloading,
   withViewTransitions,
 } from '@angular/router';
 
@@ -11,7 +14,6 @@ import { appUiStore } from '@ht/shared/util-prefs/ui.store';
 import { authStore } from '@ht/shared/util-auth/store';
 import { provideIcons } from '@ng-icons/core';
 import { routes } from './app.routes';
-import { counterStore } from '@ht/signalsdemos/signalsdemos-landing/internal/stores/counter-store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +23,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withExperimentalAutoCleanupInjectors(),
       withComponentInputBinding(),
+      withPreloading(PreloadAllModules), // download all those as soon as the hit main, so, preemptively
     ),
 
     authStore,

@@ -36,6 +36,7 @@
   "private": true,
   "packageManager": "npm@11.6.4",
   "dependencies": {
+    "@angular-architects/ngrx-toolkit": "^21.0.1",
     "@angular/common": "^21.2.4",
     "@angular/compiler": "^21.2.4",
     "@angular/core": "^21.2.4",
