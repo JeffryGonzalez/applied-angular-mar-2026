@@ -12,6 +12,7 @@ const user = {
 export default [
   http.get('/api/user/', async () => {
     await delay();
+
     return HttpResponse.json(user);
   }),
 ] as HttpHandler[];

@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, computed } from '@angular/core';
 import { SectionLayout, SectionLink } from '@ht/shared/ui-common/layouts/section';
+import { authStore } from '@ht/shared/util-auth/store';
 
 @Component({
   selector: 'ht-resources-home',
@@ -9,18 +10,27 @@ import { SectionLayout, SectionLink } from '@ht/shared/ui-common/layouts/section
   styles: ``,
 })
 export class Home {
-  links = signal<SectionLink[]>([
-    {
-      title: 'List of Links',
-      path: 'list',
-    },
-    {
-      title: 'Add a Link',
-      path: 'add',
-    },
-    {
+  store = inject(authStore);
+  links = computed<SectionLink[]>(() => {
+    const base: SectionLink[] = [
+      {
+        title: 'List of Links',
+        path: 'list',
+      },
+    ];
+
+    if (this.store.isLoggedIn()) {
+      base.push({
+        title: 'Add a Link',
+        path: 'add',
+      });
+    }
+
+    base.push({
       title: 'Add a Link Alt',
       path: 'add-2',
-    },
-  ]);
+    });
+
+    return base;
+  });
 }

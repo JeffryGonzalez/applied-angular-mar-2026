@@ -21,7 +21,15 @@ export const authStore = signalStore(
   }),
   withComputed((store) => {
     return {
-      isLoggedIn: computed(() => !!store.authResource.value()),
+      isLoggedIn: computed(() => {
+        if (store.authResource.value()) {
+          return true;
+        }
+        if (store.authResource.error() || store.authResource.isLoading()) {
+          return false;
+        }
+        return false;
+      }),
     };
   }),
 );
