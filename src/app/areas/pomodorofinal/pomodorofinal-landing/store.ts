@@ -6,6 +6,7 @@ type PomodoroPrefs = {
   breakMinutes: number;
   rakibWorkMinutes: number;
   rakibBreakMinutes: number;
+  rakibLongBreakMinutes: number;
 };
 
 const storageKey = 'pomodoro-prefs';
@@ -26,6 +27,7 @@ export const pomodoroStore = signalStore(
     breakMinutes: 5,
     rakibWorkMinutes: 25,
     rakibBreakMinutes: 5,
+    rakibLongBreakMinutes: 15,
   }),
   withMethods((store) => ({
     setWorkMinutes(minutes: number): void {
@@ -40,7 +42,11 @@ export const pomodoroStore = signalStore(
     setRakibBreakMinutes(minutes: number): void {
       patchState(store, { rakibBreakMinutes: Math.max(1, Math.min(30, minutes)) });
     },
+    setRakibLongBreakMinutes(minutes: number): void {
+      patchState(store, { rakibLongBreakMinutes: Math.max(1, Math.min(60, minutes)) });
+    },
   })),
+
 
   withHooks({
     onInit(store) {
@@ -56,6 +62,7 @@ export const pomodoroStore = signalStore(
             breakMinutes: store.breakMinutes(),
             rakibWorkMinutes: store.rakibWorkMinutes(),
             rakibBreakMinutes: store.rakibBreakMinutes(),
+            rakibLongBreakMinutes: store.rakibLongBreakMinutes(),
           }),
         );
       });

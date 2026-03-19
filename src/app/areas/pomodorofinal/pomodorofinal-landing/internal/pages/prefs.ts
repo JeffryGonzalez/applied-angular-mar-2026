@@ -98,6 +98,28 @@ import { pomodoroStore } from '../../store';
           </div>
         </div>
 
+        <!-- Rakib long break duration -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold">Rakib Long Break Duration</span>
+            <span class="label-text-alt text-info font-bold">{{ store.rakibLongBreakMinutes() }} min</span>
+          </label>
+          <input
+            type="range"
+            class="range range-info"
+            min="5"
+            max="60"
+            step="1"
+            [ngModel]="store.rakibLongBreakMinutes()"
+            (ngModelChange)="store.setRakibLongBreakMinutes($event)"
+          />
+          <div class="flex justify-between text-xs text-base-content/50 px-1 mt-1">
+            <span>5 min</span>
+            <span>30 min</span>
+            <span>60 min</span>
+          </div>
+        </div>
+
         <div class="alert alert-info">
           <span>Settings are saved automatically and survive page reloads.</span>
         </div>

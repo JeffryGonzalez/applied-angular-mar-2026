@@ -20,15 +20,22 @@ import { pomodoroStore } from '../../store';
         <div
           class="badge badge-lg"
           [class.badge-error]="rakibMode() === 'work'"
-          [class.badge-info]="rakibMode() === 'break'"
+          [class.badge-info]="rakibMode() !== 'work'"
         >
-          Rakib {{ rakibMode() === 'work' ? 'Focus' : 'Break' }}
+          Rakib
+          @if (rakibMode() === 'work') {
+            Focus
+          } @else if (rakibMode() === 'shortBreak') {
+            Short Break
+          } @else {
+            Long Break
+          }
         </div>
 
         <div
           class="radial-progress text-2xl font-mono font-bold transition-all"
           [class.text-error]="rakibMode() === 'work'"
-          [class.text-info]="rakibMode() === 'break'"
+          [class.text-info]="rakibMode() !== 'work'"
           [style.--value]="rakibProgressPercent()"
           [style.--size]="'12rem'"
           [style.--thickness]="'8px'"
@@ -53,9 +60,14 @@ import { pomodoroStore } from '../../store';
         <p class="text-sm text-base-content/50">
           @if (rakibMode() === 'work') {
             Rakib Focus: {{ store.rakibWorkMinutes() }} min
+          } @else if (rakibMode() === 'shortBreak') {
+            Rakib Short Break: {{ store.rakibBreakMinutes() }} min
           } @else {
-            Rakib Break: {{ store.rakibBreakMinutes() }} min
+            Rakib Long Break: {{ store.rakibLongBreakMinutes() }} min
           }
+        </p>
+        <p class="text-xs text-base-content/50">
+          Cycle: {{ rakibCyclesCompleted() }} / 4
         </p>
       </div>
     </app-ui-page>
@@ -119,7 +131,8 @@ export class TimerPage {
   isRunning = signal(false);
   secondsRemaining = signal(this.store.workMinutes() * 60);
 
-  rakibMode = signal<'work' | 'break'>('work');
+  rakibMode = signal<'work' | 'shortBreak' | 'longBreak'>('work');
+  rakibCyclesCompleted = signal(0);
   rakibIsRunning = signal(false);
   rakibSecondsRemaining = signal(this.store.rakibWorkMinutes() * 60);
 
@@ -133,11 +146,15 @@ export class TimerPage {
       : this.store.breakMinutes() * 60,
   );
 
-  rakibSessionDuration = computed(() =>
-    this.rakibMode() === 'work'
-      ? this.store.rakibWorkMinutes() * 60
-      : this.store.rakibBreakMinutes() * 60,
-  );
+  rakibSessionDuration = computed(() => {
+    if (this.rakibMode() === 'work') {
+      return this.store.rakibWorkMinutes() * 60;
+    }
+    if (this.rakibMode() === 'shortBreak') {
+      return this.store.rakibBreakMinutes() * 60;
+    }
+    return this.store.rakibLongBreakMinutes() * 60;
+  });
 
   // Derived: MM:SS string for display
   formattedTime = computed(() => {
@@ -182,11 +199,26 @@ export class TimerPage {
       }
     });
 
-    // Rakib timer auto-reset on completion and mode flip
+    // Rakib timer auto-cycle logic (work → shortBreak ×3 → longBreak → work)
     effect(() => {
       if (this.rakibSecondsRemaining() === 0 && this.rakibIsRunning()) {
         this.rakibPause();
-        this.rakibMode.update((m) => (m === 'work' ? 'break' : 'work'));
+
+        if (this.rakibMode() === 'work') {
+          const nextCycle = this.rakibCyclesCompleted() + 1;
+          this.rakibCyclesCompleted.set(nextCycle);
+          if (nextCycle < 4) {
+            this.rakibMode.set('shortBreak');
+          } else {
+            this.rakibMode.set('longBreak');
+          }
+        } else {
+          // Break finished: return to work; after long break reset cycle counter
+          const newCycles = this.rakibMode() === 'longBreak' ? 0 : this.rakibCyclesCompleted();
+          this.rakibCyclesCompleted.set(newCycles);
+          this.rakibMode.set('work');
+        }
+
         this.rakibSecondsRemaining.set(this.rakibSessionDuration());
       }
     });
@@ -245,6 +277,8 @@ export class TimerPage {
 
   rakibReset(): void {
     this.rakibPause();
+    this.rakibMode.set('work');
+    this.rakibCyclesCompleted.set(0);
     this.rakibSecondsRemaining.set(this.rakibSessionDuration());
   }
 
