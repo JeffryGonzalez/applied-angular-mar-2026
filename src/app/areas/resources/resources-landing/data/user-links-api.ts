@@ -10,7 +10,7 @@ export class UserLinksApi {
   }
 
   addRemoved(id: string) {
-    return this.#client.put(`/api/user/ignored-links/${id}`, {});
+    return this.#client.put<UserLinkPref>(`/api/user/ignored-links/${id}`, {});
   }
 
   unremove(id: string) {
@@ -18,7 +18,7 @@ export class UserLinksApi {
   }
 
   addPinned(id: string) {
-    return this.#client.put(`/api/user/pinned-links/${id}`, {});
+    return this.#client.put<UserLinkPref>(`/api/user/pinned-links/${id}`, {});
   }
   unpin(id: string) {
     return this.#client.delete(`/api/user/pinned-links/${id}`);

@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { ExtractHostPipe } from '../../../util-pipes/extract-host';
 import { ResourceApiItemModel } from '../types';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-resources-pages-list',
-  imports: [PageLayout, ExtractHostPipe],
+  imports: [PageLayout, ExtractHostPipe, RouterLink],
   template: `<app-ui-page title="Developer Resource List">
     @if (linksResource.isLoading()) {
       <span class="loading loading-spinner text-primary"></span>
@@ -16,6 +17,7 @@ import { ResourceApiItemModel } from '../types';
           <div class="card bg-base-100 card-xs shadow-sm">
             <div class="card-body">
               <h2 class="card-title text-xl text-accent">{{ link.title }}</h2>
+              <a class="link" [routerLink]="[link.id]">Details</a>
               <a class="btn btn-primary btn-xs" [href]="link.url" target="_blank"
                 >Visit {{ link.url | extractHost: true }}</a
               >

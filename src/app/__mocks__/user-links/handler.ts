@@ -19,7 +19,7 @@ export const userLinkHandler = [
     }
 
     const newEntry: UserLinkPref = {
-      id: crypto.randomUUID(),
+      id: id?.toString()!,
       ignored: true,
       pinned: false,
     };
@@ -46,7 +46,7 @@ export const userLinkHandler = [
       return HttpResponse.json(existing);
     }
     const newEntry: UserLinkPref = {
-      id: crypto.randomUUID(),
+      id: id?.toString()!,
       ignored: false,
       pinned: true,
     };

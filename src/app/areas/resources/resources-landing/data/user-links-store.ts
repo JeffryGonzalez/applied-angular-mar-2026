@@ -1,9 +1,10 @@
+import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withHooks, withMethods } from '@ngrx/signals';
-import { setEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
-import { UserLinksApi } from './user-links-api';
+import { setEntities, updateEntity, upsertEntity, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { exhaustMap, map, mergeMap, pipe, tap } from 'rxjs';
+import { exhaustMap, mergeMap, pipe, tap } from 'rxjs';
+import { UserLinksApi } from './user-links-api';
 export type UserLinkPref = {
   id: string;
   ignored: boolean;
@@ -11,6 +12,7 @@ export type UserLinkPref = {
 };
 
 export const userLinksStore = signalStore(
+  withDevtools('User Links Store'),
   withEntities<UserLinkPref>(),
   withComputed((store) => {
     return {
@@ -43,11 +45,7 @@ export const userLinksStore = signalStore(
           mergeMap((link) =>
             api
               .addRemoved(link)
-              .pipe(
-                tap(() =>
-                  patchState(store, updateEntity({ id: link, changes: { ignored: true } })),
-                ),
-              ),
+              .pipe(tap((updatedLink) => patchState(store, upsertEntity(updatedLink)))),
           ),
         ),
       ),
@@ -67,11 +65,7 @@ export const userLinksStore = signalStore(
       pin: rxMethod<string>(
         pipe(
           mergeMap((link) =>
-            api
-              .addPinned(link)
-              .pipe(
-                tap(() => patchState(store, updateEntity({ id: link, changes: { pinned: true } }))),
-              ),
+            api.addPinned(link).pipe(tap((linky) => patchState(store, upsertEntity(linky)))),
           ),
         ),
       ),

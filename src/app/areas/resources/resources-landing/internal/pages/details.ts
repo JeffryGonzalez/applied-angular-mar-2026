@@ -18,7 +18,12 @@ import { userLinksStore } from '../../data/user-links-store';
             Ignored:
             <label class="swap swap-flip text-xl">
               <!-- this hidden checkbox controls the state -->
-              <input type="checkbox" class="hidden" (change)="ignore()" />
+              <input
+                type="checkbox"
+                class="hidden"
+                (change)="ignore()"
+                [checked]="isLinkIgnored()"
+              />
 
               <div class="swap-on">😈</div>
               <div class="swap-off">😇</div>
@@ -28,7 +33,7 @@ import { userLinksStore } from '../../data/user-links-store';
             Pinned:
             <label class="swap swap-flip text-xl">
               <!-- this hidden checkbox controls the state -->
-              <input type="checkbox" class="hidden" (change)="pin()" />
+              <input type="checkbox" class="hidden" (change)="pin()" [checked]="isLinkPinned()" />
 
               <div class="swap-on">😈</div>
               <div class="swap-off">😇</div>
