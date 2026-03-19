@@ -14,5 +14,9 @@ export class Home {
       path: 'counter',
       title: 'Counter',
     },
+    {
+      path: 'prefs',
+      title: 'Preferences',
+    },
   ]);
 }

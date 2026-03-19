@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { FizzBuzzComponent } from './fizzbuzz';
+import { CounterStoreService } from '../counter.store';
 
 @Component({
   selector: 'app-home-pages-counter',
@@ -18,6 +19,10 @@ import { FizzBuzzComponent } from './fizzbuzz';
       </button>
     </div>
 
+    <div class="text-center text-sm text-gray-500 mb-4">
+      Counting by: {{ store.step() }}
+    </div>
+
     <app-counter-fizzbuzz class="mt-8" [value]="count()" />
 
     <div class="p-8">
@@ -29,14 +34,15 @@ import { FizzBuzzComponent } from './fizzbuzz';
   styles: ``,
 })
 export class CounterPage {
+  store = inject(CounterStoreService);
   count = signal(0);
 
   increment() {
-    this.count.update(current => current + 1);
+    this.count.update(current => current + this.store.step());
   }
 
   decrement() {
-    this.count.update(current => current - 1);
+    this.count.update(current => current - this.store.step());
   }
 
   reset() {
