@@ -4,24 +4,30 @@ import { effect } from '@angular/core';
 type PomodoroPrefs = {
   workMinutes: number;
   breakMinutes: number;
+  rakibWorkMinutes: number;
+  rakibBreakMinutes: number;
+  rakibLongBreakMinutes: number;
 };
 
-const STORAGE_KEY = 'pomodoro-prefs';
+const storageKey = 'pomodoro-prefs';
 
 function loadFromStorage(): Partial<PomodoroPrefs> {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(storageKey);
     return saved ? (JSON.parse(saved) as Partial<PomodoroPrefs>) : {};
   } catch {
     return {};
   }
 }
 
-export const PomodoroStore = signalStore(
+export const pomodoroStore = signalStore(
   { providedIn: 'root' },
   withState<PomodoroPrefs>({
     workMinutes: 25,
     breakMinutes: 5,
+    rakibWorkMinutes: 25,
+    rakibBreakMinutes: 5,
+    rakibLongBreakMinutes: 15,
   }),
   withMethods((store) => ({
     setWorkMinutes(minutes: number): void {
@@ -30,7 +36,18 @@ export const PomodoroStore = signalStore(
     setBreakMinutes(minutes: number): void {
       patchState(store, { breakMinutes: Math.max(1, Math.min(30, minutes)) });
     },
+    setRakibWorkMinutes(minutes: number): void {
+      patchState(store, { rakibWorkMinutes: Math.max(1, Math.min(60, minutes)) });
+    },
+    setRakibBreakMinutes(minutes: number): void {
+      patchState(store, { rakibBreakMinutes: Math.max(1, Math.min(30, minutes)) });
+    },
+    setRakibLongBreakMinutes(minutes: number): void {
+      patchState(store, { rakibLongBreakMinutes: Math.max(1, Math.min(60, minutes)) });
+    },
   })),
+
+
   withHooks({
     onInit(store) {
       const saved = loadFromStorage();
@@ -39,10 +56,13 @@ export const PomodoroStore = signalStore(
       }
       effect(() => {
         localStorage.setItem(
-          STORAGE_KEY,
+          storageKey,
           JSON.stringify({
             workMinutes: store.workMinutes(),
             breakMinutes: store.breakMinutes(),
+            rakibWorkMinutes: store.rakibWorkMinutes(),
+            rakibBreakMinutes: store.rakibBreakMinutes(),
+            rakibLongBreakMinutes: store.rakibLongBreakMinutes(),
           }),
         );
       });
