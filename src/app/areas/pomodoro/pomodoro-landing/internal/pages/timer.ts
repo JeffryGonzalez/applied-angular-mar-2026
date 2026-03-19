@@ -41,7 +41,9 @@ export class TimerPage {
   private intervalId: ReturnType<typeof setInterval> | null = null;
 
   isRunning = signal(false);
+  mode = signal<'work' | 'break'>('work');
   secondsRemaining = signal(25 * 60); // 1500 seconds = 25 minutes
+  sessionDuration = computed(() => (this.mode() === 'work' ? 25 * 60 : 5 * 60));
   startLabel = computed(() => (this.isRunning() ? 'Pause' : 'Start'));
 
   formattedTime = computed(() => {
@@ -52,7 +54,7 @@ export class TimerPage {
   });
 
   progressPercent = computed(() => {
-    const total = 25 * 60;
+    const total = this.sessionDuration();
     return Math.round(((total - this.secondsRemaining()) / total) * 100);
   });
 
@@ -73,7 +75,7 @@ export class TimerPage {
 
   reset(): void {
     this.pause();
-    this.secondsRemaining.set(25 * 60);
+    this.secondsRemaining.set(this.sessionDuration());
   }
 
   toggleTimer(): void {
