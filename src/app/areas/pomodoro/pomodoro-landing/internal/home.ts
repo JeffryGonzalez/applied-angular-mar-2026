@@ -11,6 +11,6 @@ import { SectionLayout, SectionLink } from '@ht/shared/ui-common/layouts/section
 export class Home {
   links = signal<SectionLink[]>([
     { path: 'timer', title: 'Timer' },
-    { path: 'prefs', title: 'Settings' },
+    { path: 'prefs', title: 'prefs' },
   ]);
 }
