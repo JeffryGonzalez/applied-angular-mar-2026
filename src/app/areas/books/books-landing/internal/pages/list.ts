@@ -4,11 +4,13 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { BooksApiItemModel } from '../types';
 import { JsonPipe } from '@angular/common';
 import { BasicCard } from '@ht/shared/ui-common/cards/basic-card';
+import { Summary } from '../summary';
 
 @Component({
   selector: 'app-books-pages-list',
-  imports: [PageLayout, JsonPipe, BasicCard],
+  imports: [PageLayout, JsonPipe, BasicCard, Summary],
   template: `<app-ui-page title="List">
+    <app-books-summary class="m-4"></app-books-summary>
     <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
       @for (book of booksResource.value(); track book.id) {
         <app-ui-card-basic [title]="book.title">
