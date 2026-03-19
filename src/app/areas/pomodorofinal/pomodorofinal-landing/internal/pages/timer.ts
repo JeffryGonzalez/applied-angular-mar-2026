@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { PomodoroStore } from '../../store';
+import { pomodoroStore } from '../../store';
 
 @Component({
   selector: 'ht-pomodoro-timer-page',
@@ -17,10 +17,18 @@ import { PomodoroStore } from '../../store';
   template: `
     <app-ui-page title="Rakib Timer">
       <div class="flex flex-col items-center gap-6 py-4">
-        <div class="badge badge-lg badge-info">Rakib Timer</div>
+        <div
+          class="badge badge-lg"
+          [class.badge-error]="rakibMode() === 'work'"
+          [class.badge-info]="rakibMode() === 'break'"
+        >
+          Rakib {{ rakibMode() === 'work' ? 'Focus' : 'Break' }}
+        </div>
 
         <div
           class="radial-progress text-2xl font-mono font-bold transition-all"
+          [class.text-error]="rakibMode() === 'work'"
+          [class.text-info]="rakibMode() === 'break'"
           [style.--value]="rakibProgressPercent()"
           [style.--size]="'12rem'"
           [style.--thickness]="'8px'"
@@ -41,6 +49,14 @@ import { PomodoroStore } from '../../store';
           </button>
           <button class="btn btn-ghost" (click)="rakibReset()">Reset</button>
         </div>
+
+        <p class="text-sm text-base-content/50">
+          @if (rakibMode() === 'work') {
+            Rakib Focus: {{ store.rakibWorkMinutes() }} min
+          } @else {
+            Rakib Break: {{ store.rakibBreakMinutes() }} min
+          }
+        </p>
       </div>
     </app-ui-page>
 
@@ -96,15 +112,16 @@ import { PomodoroStore } from '../../store';
   styles: ``,
 })
 export class TimerPage {
-  store = inject(PomodoroStore);
+  store = inject(pomodoroStore);
   private destroyRef = inject(DestroyRef);
 
   mode = signal<'work' | 'break'>('work');
   isRunning = signal(false);
   secondsRemaining = signal(this.store.workMinutes() * 60);
 
+  rakibMode = signal<'work' | 'break'>('work');
   rakibIsRunning = signal(false);
-  rakibSecondsRemaining = signal(25 * 60);
+  rakibSecondsRemaining = signal(this.store.rakibWorkMinutes() * 60);
 
   private intervalId: ReturnType<typeof setInterval> | null = null;
   private rakibIntervalId: ReturnType<typeof setInterval> | null = null;
@@ -114,6 +131,12 @@ export class TimerPage {
     this.mode() === 'work'
       ? this.store.workMinutes() * 60
       : this.store.breakMinutes() * 60,
+  );
+
+  rakibSessionDuration = computed(() =>
+    this.rakibMode() === 'work'
+      ? this.store.rakibWorkMinutes() * 60
+      : this.store.rakibBreakMinutes() * 60,
   );
 
   // Derived: MM:SS string for display
@@ -139,7 +162,8 @@ export class TimerPage {
   });
 
   rakibProgressPercent = computed(() => {
-    const duration = 25 * 60;
+    const duration = this.rakibSessionDuration();
+    if (duration === 0) return 0;
     return Math.round(((duration - this.rakibSecondsRemaining()) / duration) * 100);
   });
 
@@ -158,11 +182,12 @@ export class TimerPage {
       }
     });
 
-    // Rakib timer auto-reset on completion
+    // Rakib timer auto-reset on completion and mode flip
     effect(() => {
       if (this.rakibSecondsRemaining() === 0 && this.rakibIsRunning()) {
         this.rakibPause();
-        this.rakibSecondsRemaining.set(25 * 60);
+        this.rakibMode.update((m) => (m === 'work' ? 'break' : 'work'));
+        this.rakibSecondsRemaining.set(this.rakibSessionDuration());
       }
     });
 
@@ -220,7 +245,7 @@ export class TimerPage {
 
   rakibReset(): void {
     this.rakibPause();
-    this.rakibSecondsRemaining.set(25 * 60);
+    this.rakibSecondsRemaining.set(this.rakibSessionDuration());
   }
 
   private clearTimer(): void {
