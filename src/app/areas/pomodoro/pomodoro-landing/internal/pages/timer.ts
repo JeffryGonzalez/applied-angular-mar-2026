@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, DestroyRef } from '@angular/core';
+import { Component, signal, computed, inject, DestroyRef, effect } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 
 @Component({
@@ -7,11 +7,19 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
   template: `<app-ui-page title="Pomodoro Timer">
     <div class="flex flex-col items-center gap-6 py-4">
       <!-- Mode badge -->
-      <div class="badge badge-lg badge-error">Focus</div>
+      <div
+        class="badge badge-lg"
+        [class.badge-error]="mode() === 'work'"
+        [class.badge-info]="mode() === 'break'"
+      >
+        {{ mode() === 'work' ? 'Focus' : 'Break' }}
+      </div>
 
       <!-- Timer display -->
       <div
-        class="radial-progress text-2xl font-mono font-bold text-error"
+        class="radial-progress text-2xl font-mono font-bold"
+        [class.text-error]="mode() === 'work'"
+        [class.text-info]="mode() === 'break'"
         [style.--value]="progressPercent()"
         [style.--size]="'12rem'"
         [style.--thickness]="'8px'"
@@ -32,6 +40,15 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 })
 export class TimerPage {
   constructor() {
+    effect(() => {
+      if (this.secondsRemaining() === 0 && this.isRunning()) {
+        this.pause();
+        this.mode.update((m) => (m === 'work' ? 'break' : 'work'));
+        this.secondsRemaining.set(this.sessionDuration());
+      }
+    });
+
+    // DestroyRef cleanup from Sprint 3 stays here too
     this.destroyRef.onDestroy(() => {
       if (this.intervalId !== null) clearInterval(this.intervalId);
     });
@@ -44,6 +61,7 @@ export class TimerPage {
   mode = signal<'work' | 'break'>('work');
   secondsRemaining = signal(25 * 60); // 1500 seconds = 25 minutes
   sessionDuration = computed(() => (this.mode() === 'work' ? 25 * 60 : 5 * 60));
+  //sessionDuration = computed(() => (this.mode() === 'work' ? 5 : 5 * 60));
   startLabel = computed(() => (this.isRunning() ? 'Pause' : 'Start'));
 
   formattedTime = computed(() => {
