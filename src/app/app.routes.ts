@@ -29,6 +29,11 @@ const realRoutes: Routes = [
         (r) => r.resourcesFeatureRoutes,
       ),
   },
+   {
+    path: 'conway',
+    loadChildren: () =>
+      import('./areas/conway/conway-landing/conway.routes').then((r) => r.conwayFeatureRoutes),
+  },
   {
     path: 'books',
     loadChildren: () =>

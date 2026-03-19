@@ -119,6 +119,8 @@ export class App {
     { path: '/demos', title: 'Signals', icon: 'lucideSignpostBig' },
 
     { path: '/resources', title: 'Developer Resources', icon: 'lucideNewspaper' },
+    
+    { path: '/conway', title: 'Game of Life', icon: 'lucideBug' },
 
     { path: '/books', title: 'Books', icon: 'lucideTimer' },
 

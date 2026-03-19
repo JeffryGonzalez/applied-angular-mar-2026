@@ -5,7 +5,7 @@ import {
   withComponentInputBinding,
   withExperimentalAutoCleanupInjectors,
   withPreloading,
-  withViewTransitions,
+  // withViewTransitions,
 } from '@angular/router';
 
 import { icons } from '@ht/shared/ui-common/icons/types';
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
-      withViewTransitions(),
+      // withViewTransitions(),
       withExperimentalAutoCleanupInjectors(),
       withComponentInputBinding(),
       withPreloading(PreloadAllModules), // download all those as soon as the hit main, so, preemptively

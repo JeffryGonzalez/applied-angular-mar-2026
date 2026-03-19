@@ -1,9 +1,17 @@
 export type BooksApiItemModel = {
-  id: string;
-  title: string;
-  country: string;
-  pages: number;
+  data: BookEntity[];
+};
+
+export type BookEntity = {
   author: string;
-  year: number;
+  country: string;
+  imageLink: string;
   language: string;
+  link: string;
+  pages: number;
+  title: string;
+  year: number;
+  id: number;
+  custom?: boolean | false;
+  imageData?: string;
 };
