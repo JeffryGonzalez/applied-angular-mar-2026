@@ -90,7 +90,7 @@ export const resourceHandlers = [
 
   http.post('/api/resources', async ({ request }) => {
     await delay();
-    const body = await request.json() as { title: string; url: string };
+    const body = (await request.json()) as { title: string; url: string };
     if (new URL(body.url).hostname.includes('geico.com')) {
       return HttpResponse.json(
         { message: 'We do not allow links to our competitors.' },

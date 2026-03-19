@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { TextAnalyzerStore } from '../../store';
+import { textAnalyzerStore } from '../../store';
 
 @Component({
   selector: 'ht-text-analyzer-history-page',
@@ -33,9 +33,15 @@ import { TextAnalyzerStore } from '../../store';
                   </span>
                 </div>
                 <div class="flex gap-4 mt-2 text-xs text-base-content/60">
-                  <span><strong>{{ item.wordCount }}</strong> words</span>
-                  <span><strong>{{ item.charCount }}</strong> chars</span>
-                  <span><strong>{{ formatTime(item.readingTimeSecs) }}</strong> read</span>
+                  <span
+                    ><strong>{{ item.wordCount }}</strong> words</span
+                  >
+                  <span
+                    ><strong>{{ item.charCount }}</strong> chars</span
+                  >
+                  <span
+                    ><strong>{{ formatTime(item.readingTimeSecs) }}</strong> read</span
+                  >
                 </div>
                 @if (item.topKeywords.length > 0) {
                   <div class="flex flex-wrap gap-1 mt-2">
@@ -54,7 +60,7 @@ import { TextAnalyzerStore } from '../../store';
   styles: ``,
 })
 export class HistoryPage {
-  store = inject(TextAnalyzerStore);
+  store = inject(textAnalyzerStore);
 
   formatTime(secs: number): string {
     if (secs < 60) return `${secs}s`;

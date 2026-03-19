@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { TextAnalyzerStore } from '../../store';
+import { textAnalyzerStore } from '../../store';
 
 @Component({
   selector: 'ht-text-analyzer-settings-page',
@@ -76,5 +76,5 @@ import { TextAnalyzerStore } from '../../store';
   styles: ``,
 })
 export class SettingsPage {
-  store = inject(TextAnalyzerStore);
+  store = inject(textAnalyzerStore);
 }

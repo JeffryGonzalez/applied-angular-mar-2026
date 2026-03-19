@@ -6,18 +6,18 @@ type PomodoroPrefs = {
   breakMinutes: number;
 };
 
-const STORAGE_KEY = 'pomodoro-prefs';
+const storageKey = 'pomodoro-prefs';
 
 function loadFromStorage(): Partial<PomodoroPrefs> {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(storageKey);
     return saved ? (JSON.parse(saved) as Partial<PomodoroPrefs>) : {};
   } catch {
     return {};
   }
 }
 
-export const PomodoroStore = signalStore(
+export const pomodoroStore = signalStore(
   { providedIn: 'root' },
   withState<PomodoroPrefs>({
     workMinutes: 25,
@@ -39,7 +39,7 @@ export const PomodoroStore = signalStore(
       }
       effect(() => {
         localStorage.setItem(
-          STORAGE_KEY,
+          storageKey,
           JSON.stringify({
             workMinutes: store.workMinutes(),
             breakMinutes: store.breakMinutes(),

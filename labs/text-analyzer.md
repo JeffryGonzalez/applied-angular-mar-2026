@@ -39,11 +39,7 @@ text = signal('');
 Bind a `<textarea>` to it using `FormsModule`:
 
 ```html
-<textarea
-  [ngModel]="text()"
-  (ngModelChange)="text.set($event)"
-  data-testid="text-input"
-></textarea>
+<textarea [ngModel]="text()" (ngModelChange)="text.set($event)" data-testid="text-input"></textarea>
 ```
 
 ### Computed Chaining
@@ -101,7 +97,9 @@ Split on blank lines:
 
 ```typescript
 paragraphCount = computed(() => {
-  const paras = this.text().split(/\n\s*\n/).filter(p => p.trim().length > 0);
+  const paras = this.text()
+    .split(/\n\s*\n/)
+    .filter((p) => p.trim().length > 0);
   return paras.length || (this.text().trim().length > 0 ? 1 : 0);
 });
 ```
@@ -173,7 +171,7 @@ topKeywords = computed(() =>
   [...this.wordFrequency().entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, 10)
-    .map(([word, count]) => ({ word, count }))
+    .map(([word, count]) => ({ word, count })),
 );
 ```
 
@@ -181,10 +179,10 @@ Display them as badges:
 
 ```html
 @for (kw of topKeywords(); track kw.word) {
-  <div class="badge badge-outline gap-1">
-    <span class="font-semibold">{{ kw.word }}</span>
-    <span class="text-base-content/50">×{{ kw.count }}</span>
-  </div>
+<div class="badge badge-outline gap-1">
+  <span class="font-semibold">{{ kw.word }}</span>
+  <span class="text-base-content/50">×{{ kw.count }}</span>
+</div>
 }
 ```
 
@@ -225,11 +223,54 @@ Create `text-analyzer-landing/store.ts`:
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
 const DEFAULT_STOP_WORDS = [
-  'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-  'of', 'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been',
-  'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-  'should', 'it', 'its', 'this', 'that', 'i', 'you', 'he', 'she', 'we',
-  'they', 'not', 'so', 'if', 'as', 'what', 'which', 'who',
+  'the',
+  'a',
+  'an',
+  'and',
+  'or',
+  'but',
+  'in',
+  'on',
+  'at',
+  'to',
+  'for',
+  'of',
+  'with',
+  'by',
+  'from',
+  'is',
+  'are',
+  'was',
+  'were',
+  'be',
+  'been',
+  'have',
+  'has',
+  'had',
+  'do',
+  'does',
+  'did',
+  'will',
+  'would',
+  'could',
+  'should',
+  'it',
+  'its',
+  'this',
+  'that',
+  'i',
+  'you',
+  'he',
+  'she',
+  'we',
+  'they',
+  'not',
+  'so',
+  'if',
+  'as',
+  'what',
+  'which',
+  'who',
 ];
 
 export const TextAnalyzerStore = signalStore(
@@ -280,6 +321,7 @@ private wordFrequency = computed(() => {
 ### Create the Settings Page
 
 Create `internal/pages/settings.ts`. Inject `TextAnalyzerStore` and add:
+
 - A `range` slider for WPM (50–600)
 - A `range` slider for minimum keyword length (1–10)
 - A note about how many stop words are excluded

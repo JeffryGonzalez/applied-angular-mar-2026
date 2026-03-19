@@ -89,9 +89,7 @@ Open `pomodoro.routes.ts`. Add an import for `TimerPage` and add a child route:
 Open `internal/home.ts`. Add `timer` to the `links` signal:
 
 ```typescript
-links = signal<SectionLink[]>([
-  { path: 'timer', title: 'Timer' },
-]);
+links = signal<SectionLink[]>([{ path: 'timer', title: 'Timer' }]);
 ```
 
 ### Check Your Work
@@ -109,7 +107,7 @@ Now make the timer actually count. All state lives inside the component for this
 In `timer.ts`, add these three signals to the component class:
 
 ```typescript
-secondsRemaining = signal(25 * 60);  // 1500 seconds = 25 minutes
+secondsRemaining = signal(25 * 60); // 1500 seconds = 25 minutes
 isRunning = signal(false);
 ```
 
@@ -210,7 +208,7 @@ The Start button should start counting down. Pause should stop it. Reset should 
 The Start button should say "Pause" when the timer is running. Add a computed:
 
 ```typescript
-startLabel = computed(() => this.isRunning() ? 'Pause' : 'Start');
+startLabel = computed(() => (this.isRunning() ? 'Pause' : 'Start'));
 ```
 
 Update the template:
@@ -268,9 +266,7 @@ mode = signal<'work' | 'break'>('work');
 The hardcoded `25 * 60` needs to change based on mode. Add a `computed` for the session duration:
 
 ```typescript
-sessionDuration = computed(() =>
-  this.mode() === 'work' ? 25 * 60 : 5 * 60
-);
+sessionDuration = computed(() => (this.mode() === 'work' ? 25 * 60 : 5 * 60));
 ```
 
 Update `reset()` to use this:
@@ -305,7 +301,7 @@ constructor() {
 }
 ```
 
-> **What makes this an `effect`?** An effect is for code that must run *as a consequence of signal changes* but isn't computing a new value — it's a side effect. Here we're reacting to `secondsRemaining` hitting 0 to drive other state changes.
+> **What makes this an `effect`?** An effect is for code that must run _as a consequence of signal changes_ but isn't computing a new value — it's a side effect. Here we're reacting to `secondsRemaining` hitting 0 to drive other state changes.
 
 ### Update the UI for Mode
 
@@ -324,8 +320,7 @@ Make the badge and colors change based on mode:
 You can also bind the color class on the `radial-progress` div:
 
 ```html
-[class.text-error]="mode() === 'work'"
-[class.text-info]="mode() === 'break'"
+[class.text-error]="mode() === 'work'" [class.text-info]="mode() === 'break'"
 ```
 
 ### Check Your Work
@@ -378,9 +373,7 @@ Update `sessionDuration` to read from the store instead of hardcoded values:
 
 ```typescript
 sessionDuration = computed(() =>
-  this.mode() === 'work'
-    ? this.store.workMinutes() * 60
-    : this.store.breakMinutes() * 60
+  this.mode() === 'work' ? this.store.workMinutes() * 60 : this.store.breakMinutes() * 60,
 );
 ```
 
@@ -390,7 +383,7 @@ Also initialize `secondsRemaining` from the store:
 secondsRemaining = signal(this.store.workMinutes() * 60);
 ```
 
-> **Important**: `store` must be declared *before* `secondsRemaining` in the class body so it's initialized first.
+> **Important**: `store` must be declared _before_ `secondsRemaining` in the class body so it's initialized first.
 
 ### Create the Prefs Page
 
@@ -414,7 +407,9 @@ store = inject(PomodoroStore);
     <input
       type="range"
       class="range range-error"
-      min="1" max="60" step="1"
+      min="1"
+      max="60"
+      step="1"
       [ngModel]="store.workMinutes()"
       (ngModelChange)="store.setWorkMinutes($event)"
     />

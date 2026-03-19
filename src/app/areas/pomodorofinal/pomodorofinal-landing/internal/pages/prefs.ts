@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { PomodoroStore } from '../../store';
+import { pomodoroStore } from '../../store';
 
 @Component({
   selector: 'ht-pomodoro-prefs-page',
@@ -63,5 +63,5 @@ import { PomodoroStore } from '../../store';
   styles: ``,
 })
 export class PrefsPage {
-  store = inject(PomodoroStore);
+  store = inject(pomodoroStore);
 }

@@ -2,7 +2,6 @@
 
 > This lab is designed to help you seal in what we did yesterday, and is great as a "kata" for practicing the "moves" in state management using signals and the signal store.
 
-
 In this lab you we recreate what we already did in the `signalsdemos` with the counter and the prefs.
 
 ## Sprint 1 - Feature Scaffold
@@ -23,15 +22,14 @@ Start the app (`npm start`) and navigate to `http://localhost:4200`. You should 
 
 ---
 
-## Sprint 2 - Counter Page 
+## Sprint 2 - Counter Page
 
 Add a new file at `src/app/areas/counter/counter-landing/internal/pages` called 'counter.ts'.
 
 In that file use the `ngp` snippet to generate the following (tabbing to replace the placeholders):
 
-
 ```ts
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 
 @Component({
@@ -40,38 +38,30 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
   imports: [PageLayout],
   template: `<app-ui-page title="Counter">
     <div>
-      <button class="btn btn-circle btn-warning">
-        -
-      </button>
+      <button class="btn btn-circle btn-warning">-</button>
       <span class="text-3xl p-4">0</span>
 
-      <button  class="btn btn-circle btn-success">
-      +
-      </button>
+      <button class="btn btn-circle btn-success">+</button>
     </div>
 
     <div class="p-8">
-      <button>
-        Reset
-      </button>
+      <button>Reset</button>
     </div>
   </app-ui-page>`,
   styles: ``,
 })
-export class CounterPage {
-
-}
+export class CounterPage {}
 ```
 
 Since you have the code from class, I'll just provide the "sequence" of requirements here.
 
-This is a "kata" or practice, helping you train yourself to understand signals, state flow, and "lifting state". You already *know* how to do this, because you did it yesterday or watched me do it (and you have the code from yesterday, either in your own project, or the instructor's code if you get stuck). 
+This is a "kata" or practice, helping you train yourself to understand signals, state flow, and "lifting state". You already _know_ how to do this, because you did it yesterday or watched me do it (and you have the code from yesterday, either in your own project, or the instructor's code if you get stuck).
 
-Do not just "copy and paste", though - you won't learn much that way, probably. 
+Do not just "copy and paste", though - you won't learn much that way, probably.
 
 At each "sprint" below, pretend as if you don't know what is coming next. Ask yourself the question "what is the simplest thing I can do to meet the requirements of this sprint".
 
-**You are doing this to learn something, not *accomplish* something!**
+**You are doing this to learn something, not _accomplish_ something!**
 
 ## Sprint 1 - Routing and a Link
 
@@ -107,7 +97,7 @@ Use this as a child component of the Counter component.
 
 ## Sprint 4 - User Preferences
 
-Create a new page in the Counter area called `prefs.ts`. (use the `ngp` snippet). 
+Create a new page in the Counter area called `prefs.ts`. (use the `ngp` snippet).
 
 Create a new route and a link, as we did above for the counter so the user can get to the "prefs" page.
 
@@ -115,7 +105,7 @@ Concoct a signals-based UI that allows the user to specify if they want to count
 
 (you could try to build a UI different than what I did yesterday if you are feeling saucy.)
 
-Make it "work" on it's own. 
+Make it "work" on it's own.
 
 ## Sprint 5 - Draw the Rest of the Tick
 
@@ -129,16 +119,12 @@ Create a service using the Signal Store (`createSignalStore` function) with just
 
 **Hint**: You will need to `provide` the store. I recommend adding it to the provider's array on the `counter.routes.ts` file.
 
-**Question for Contemplation**: What does it mean to "provide a service"? What is the difference between providing a service on a component, on a route, or in the "global" providers of the `app.config.ts`'s  providers array?
+**Question for Contemplation**: What does it mean to "provide a service"? What is the difference between providing a service on a component, on a route, or in the "global" providers of the `app.config.ts`'s providers array?
 
 Inject the same service into the counter component and use the value set in the prefs to change how the counter is incrementing and decrementing.
 
 This is better, but the counter is losing it's state (the value of the current signal) when you leave the component to change the preferences.
 
-What are some ways you could solve this? How did we solve it yesterday? 
+What are some ways you could solve this? How did we solve it yesterday?
 
 Implement whichever way you'd like to explore.
-
-
-
-

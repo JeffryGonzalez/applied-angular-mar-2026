@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { ExtractHostPipe } from '../../../util-pipes/extract-host';
 import { ResourceApiItemModel } from '../types';
