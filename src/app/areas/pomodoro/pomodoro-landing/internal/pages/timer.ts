@@ -10,13 +10,20 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
       <div class="badge badge-lg badge-error">Focus</div>
 
       <!-- Timer display -->
-      <div class="text-6xl font-mono font-bold text-error" data-testid="time-display">
+      <div
+        class="radial-progress text-2xl font-mono font-bold text-error"
+        [style.--value]="progressPercent()"
+        [style.--size]="'12rem'"
+        [style.--thickness]="'8px'"
+        role="progressbar"
+        data-testid="time-display"
+      >
         {{ formattedTime() }}
       </div>
 
       <!-- Controls -->
       <div class="flex gap-4">
-        <button class="btn btn-primary w-24" (click)="toggleTimer()">Start</button>
+        <button class="btn btn-primary w-24" (click)="toggleTimer()">{{ startLabel() }}</button>
         <button class="btn btn-ghost" (click)="reset()">Reset</button>
       </div>
     </div>
@@ -33,14 +40,20 @@ export class TimerPage {
   private destroyRef = inject(DestroyRef);
   private intervalId: ReturnType<typeof setInterval> | null = null;
 
-  secondsRemaining = signal(25 * 60); // 1500 seconds = 25 minutes
   isRunning = signal(false);
+  secondsRemaining = signal(25 * 60); // 1500 seconds = 25 minutes
+  startLabel = computed(() => (this.isRunning() ? 'Pause' : 'Start'));
 
   formattedTime = computed(() => {
     const s = this.secondsRemaining();
     const minutes = Math.floor(s / 60);
     const seconds = s % 60;
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  });
+
+  progressPercent = computed(() => {
+    const total = 25 * 60;
+    return Math.round(((total - this.secondsRemaining()) / total) * 100);
   });
 
   start(): void {
