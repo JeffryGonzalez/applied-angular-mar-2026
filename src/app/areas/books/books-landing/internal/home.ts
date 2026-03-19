@@ -9,5 +9,9 @@ import { SectionLayout, SectionLink } from '@ht/shared/ui-common/layouts/section
   styles: ``,
 })
 export class Home {
-  links = signal<SectionLink[]>([{ title: 'List of Books', path: 'list' }]);
+  links = signal<SectionLink[]>([
+    { title: 'List of Books', path: 'list' },
+    { title: 'Preferences', path: 'prefs' },
+    { title: 'Statistics', path: 'stats' },
+  ]);
 }
