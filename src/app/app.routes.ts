@@ -48,6 +48,11 @@ const realRoutes: Routes = [
         (r) => r.textAnalyzerFeatureRoutes,
       ),
   },
+  {
+    path: 'counter',
+    loadChildren: () =>
+      import('./areas/counter/counter-landing/counter.routes').then((r) => r.counterFeatureRoutes),
+  },
 ];
 
 const devRoutes: Routes = [
