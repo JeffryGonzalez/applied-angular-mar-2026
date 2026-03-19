@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { Home } from './internal/home';
-import { ListPage } from './internal/pages/list';
-import { StatsPage } from './internal/pages/stats';
-import { PrefsPage } from './internal/pages/prefs';
-import { DetailsPage } from './internal/pages/details';
+import { ListPage } from './internal/pages/list/list';
+import { StatsPage } from './internal/pages/stats/stats';
+import { PrefsPage } from './internal/pages/prefs/prefs';
+import { DetailsPage } from './internal/pages/details/details';
 
 export const booksFeatureRoutes: Routes = [
   {

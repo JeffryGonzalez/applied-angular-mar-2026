@@ -1,0 +1,32 @@
+<app-ui-page title="Books Stats">
+  @if (booksResource.isLoading()) {
+    <span class="loading loading-spinner text-primary"></span>
+  } @else {
+    <div class="grid lg:grid-cols-2 gap-4">
+      <div class="card bg-base-200 p-4 rounded-lg">
+        <div class="font-bold">Total Books</div>
+        <div class="text-2xl">{{ stats().totalBooks }}</div>
+      </div>
+      <div class="card bg-base-200 p-4 rounded-lg">
+        <div class="font-bold">Total Pages</div>
+        <div class="text-2xl">{{ stats().totalPages }}</div>
+      </div>
+      <div class="card bg-base-200 p-4 rounded-lg">
+        <div class="font-bold">Average Pages</div>
+        <div class="text-2xl">{{ stats().averagePages | number: '1.0-1' }}</div>
+      </div>
+      <div class="card bg-base-200 p-4 rounded-lg">
+        <div class="font-bold">Earliest Year</div>
+        <div class="text-2xl">{{ stats().earliestYear ?? 'n/a' }}</div>
+      </div>
+      <div class="card bg-base-200 p-4 rounded-lg">
+        <div class="font-bold">Latest Year</div>
+        <div class="text-2xl">{{ stats().latestYear ?? 'n/a' }}</div>
+      </div>
+      <div class="card bg-base-200 p-4 rounded-lg">
+        <div class="font-bold">Longest Book Title(s)</div>
+        <div>{{ stats().longestTitles.join(', ') || 'n/a' }}</div>
+      </div>
+    </div>
+  }
+</app-ui-page>

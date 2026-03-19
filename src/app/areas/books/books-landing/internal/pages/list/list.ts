@@ -2,8 +2,8 @@ import { httpResource } from '@angular/common/http';
 import { Component, computed, signal } from '@angular/core';
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { BooksApiItemModel } from '../types';
 import { RouterLink } from '@angular/router';
+import { BooksApiItemModel } from '../../types';
 
 type SortKey = 'title' | 'author' | 'year';
 type SortDirection = 'asc' | 'desc';
@@ -18,72 +18,8 @@ interface BooksSortPreference {
 @Component({
   selector: 'app-books-pages-list',
   imports: [PageLayout, RouterLink, TitleCasePipe, DecimalPipe],
-  template: `<app-ui-page title="Books List">
-    <div class="mb-4 flex flex-wrap gap-2 items-center">
-      <a class="btn btn-sm btn-primary" routerLink="/books/stats">Stats</a>
-      <a class="btn btn-sm btn-secondary" routerLink="/books/prefs">Prefs</a>
-      <span class="badge badge-outline"
-        >Sort: {{ sortKey() | titlecase }} ({{ sortDirection() }})</span
-      >
-    </div>
-
-    <div class="mb-4 grid grid-cols-2 md:grid-cols-4 gap-2 text-sm bg-base-200 p-3 rounded-lg">
-      <div>Total:</div>
-      <div>{{ books().length }}</div>
-      <div>Pages Total:</div>
-      <div>{{ stats().totalPages }}</div>
-      <div>Average Pages:</div>
-      <div>{{ stats().averagePages | number: '1.0-1' }}</div>
-      <div>Longest Book(s):</div>
-      <div>{{ stats().longestTitles.join(', ') || 'n/a' }}</div>
-      <div>Earliest Year:</div>
-      <div>{{ stats().earliestYear ?? 'n/a' }}</div>
-      <div>Latest Year:</div>
-      <div>{{ stats().latestYear ?? 'n/a' }}</div>
-    </div>
-
-    @if (booksResource.isLoading()) {
-      <span class="loading loading-spinner text-primary"></span>
-    } @else {
-      @if (books().length === 0) {
-        <div class="alert alert-warning">No books found.</div>
-      } @else {
-        <div class="overflow-x-auto">
-          <table class="table w-full table-zebra">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>
-                  <button class="btn btn-ghost btn-xs" (click)="setSort('title')">Title</button>
-                </th>
-                <th>
-                  <button class="btn btn-ghost btn-xs" (click)="setSort('author')">Author</button>
-                </th>
-                <th>
-                  <button class="btn btn-ghost btn-xs" (click)="setSort('year')">Year</button>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (book of sortedBooks(); track book.id) {
-                <tr>
-                  <td>{{ book.id }}</td>
-                  <td>
-                    <a class="link link-primary" [routerLink]="['/books/details', book.id]">{{
-                      book.title
-                    }}</a>
-                  </td>
-                  <td>{{ book.author }}</td>
-                  <td>{{ book.year }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      }
-    }
-  </app-ui-page>`,
-  styles: ``,
+  templateUrl: './list.html',
+  styleUrls: ['./list.css'],
 })
 export class ListPage {
   booksResource = httpResource<BooksApiItemModel[]>(() => '/api/books');
