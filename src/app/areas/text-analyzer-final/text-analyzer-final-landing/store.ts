@@ -18,36 +18,114 @@ type TextAnalyzerState = {
   history: AnalysisSnapshot[];
 };
 
-const STORAGE_KEY = 'text-analyzer-state';
+const storageKey = 'text-analyzer-state';
 
 // Common English stop words excluded from keyword analysis by default
-const DEFAULT_STOP_WORDS = [
-  'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-  'of', 'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been',
-  'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
-  'could', 'should', 'may', 'might', 'it', 'its', 'this', 'that', 'these',
-  'those', 'i', 'you', 'he', 'she', 'we', 'they', 'me', 'him', 'her', 'us',
-  'them', 'my', 'your', 'his', 'our', 'their', 'not', 'no', 'so', 'if',
-  'as', 'up', 'out', 'about', 'into', 'than', 'then', 'when', 'there',
-  'what', 'which', 'who', 'how', 'all', 'each', 'more', 'also', 'just',
-  'can', 'get', 'one', 'two', 'new', 'now', 'any', 'some', 'very',
+const defaultStopWords = [
+  'the',
+  'a',
+  'an',
+  'and',
+  'or',
+  'but',
+  'in',
+  'on',
+  'at',
+  'to',
+  'for',
+  'of',
+  'with',
+  'by',
+  'from',
+  'is',
+  'are',
+  'was',
+  'were',
+  'be',
+  'been',
+  'being',
+  'have',
+  'has',
+  'had',
+  'do',
+  'does',
+  'did',
+  'will',
+  'would',
+  'could',
+  'should',
+  'may',
+  'might',
+  'it',
+  'its',
+  'this',
+  'that',
+  'these',
+  'those',
+  'i',
+  'you',
+  'he',
+  'she',
+  'we',
+  'they',
+  'me',
+  'him',
+  'her',
+  'us',
+  'them',
+  'my',
+  'your',
+  'his',
+  'our',
+  'their',
+  'not',
+  'no',
+  'so',
+  'if',
+  'as',
+  'up',
+  'out',
+  'about',
+  'into',
+  'than',
+  'then',
+  'when',
+  'there',
+  'what',
+  'which',
+  'who',
+  'how',
+  'all',
+  'each',
+  'more',
+  'also',
+  'just',
+  'can',
+  'get',
+  'one',
+  'two',
+  'new',
+  'now',
+  'any',
+  'some',
+  'very',
 ];
 
 function loadFromStorage(): Partial<TextAnalyzerState> {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(storageKey);
     return saved ? (JSON.parse(saved) as Partial<TextAnalyzerState>) : {};
   } catch {
     return {};
   }
 }
 
-export const TextAnalyzerStore = signalStore(
+export const textAnalyzerStore = signalStore(
   { providedIn: 'root' },
   withState<TextAnalyzerState>({
     wpm: 200,
     minWordLength: 3,
-    excludedWords: DEFAULT_STOP_WORDS,
+    excludedWords: defaultStopWords,
     history: [],
   }),
   withMethods((store) => ({
@@ -73,7 +151,7 @@ export const TextAnalyzerStore = signalStore(
       }
       effect(() => {
         localStorage.setItem(
-          STORAGE_KEY,
+          storageKey,
           JSON.stringify({
             wpm: store.wpm(),
             minWordLength: store.minWordLength(),

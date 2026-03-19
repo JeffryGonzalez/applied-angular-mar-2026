@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { AnalysisSnapshot, TextAnalyzerStore } from '../../store';
+import { AnalysisSnapshot, textAnalyzerStore } from '../../store';
 
 @Component({
   selector: 'ht-text-analyzer-analyzer-page',
@@ -111,8 +111,8 @@ import { AnalysisSnapshot, TextAnalyzerStore } from '../../store';
                   }
                 </div>
                 <p class="text-xs text-base-content/40 mt-2">
-                  Words shorter than {{ store.minWordLength() }} letters and {{ store.excludedWords().length }} stop words are excluded.
-                  Adjust in Settings.
+                  Words shorter than {{ store.minWordLength() }} letters and
+                  {{ store.excludedWords().length }} stop words are excluded. Adjust in Settings.
                 </p>
               </div>
             </div>
@@ -124,12 +124,17 @@ import { AnalysisSnapshot, TextAnalyzerStore } from '../../store';
   styles: ``,
 })
 export class AnalyzerPage {
-  store = inject(TextAnalyzerStore);
+  store = inject(textAnalyzerStore);
 
   text = signal('');
 
   // Base computed: tokenize once, everything else derives from this
-  private words = computed(() => this.text().toLowerCase().match(/\b[a-z']+\b/g) ?? []);
+  private words = computed(
+    () =>
+      this.text()
+        .toLowerCase()
+        .match(/\b[a-z']+\b/g) ?? [],
+  );
 
   wordCount = computed(() => this.words().length);
   charCount = computed(() => this.text().length);
@@ -142,7 +147,9 @@ export class AnalyzerPage {
   });
 
   paragraphCount = computed(() => {
-    const paras = this.text().split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+    const paras = this.text()
+      .split(/\n\s*\n/)
+      .filter((p) => p.trim().length > 0);
     return paras.length || (this.text().trim().length > 0 ? 1 : 0);
   });
 

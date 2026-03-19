@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
 import { Home } from './internal/home';
-import { HomePage } from './internal/pages/home';
-import { ListPage } from './internal/pages/list';
+import { BooksListPage } from './internal/pages/books/list/list';
+import { BooksStatsPage } from './internal/pages/books/stats/stats';
+import { BooksPrefsPage } from './internal/pages/books/prefs/prefs';
+import { BooksDetailsPage } from './internal/pages/books/details/details';
 
 export const booksFeatureRoutes: Routes = [
   {
@@ -11,11 +13,24 @@ export const booksFeatureRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomePage,
+        redirectTo: 'list',
+        pathMatch: 'full',
       },
       {
         path: 'list',
-        component: ListPage,
+        component: BooksListPage,
+      },
+      {
+        path: 'stats',
+        component: BooksStatsPage,
+      },
+      {
+        path: 'prefs',
+        component: BooksPrefsPage,
+      },
+      {
+        path: 'details/:id',
+        component: BooksDetailsPage,
       },
     ],
   },

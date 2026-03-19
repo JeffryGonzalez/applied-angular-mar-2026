@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { PomodoroStore } from '../../store';
+import { pomodoroStore } from '../../store';
 
 @Component({
   selector: 'ht-pomodoro-timer-page',
@@ -67,7 +67,7 @@ import { PomodoroStore } from '../../store';
   styles: ``,
 })
 export class TimerPage {
-  store = inject(PomodoroStore);
+  store = inject(pomodoroStore);
   private destroyRef = inject(DestroyRef);
 
   mode = signal<'work' | 'break'>('work');
@@ -78,9 +78,7 @@ export class TimerPage {
 
   // Derived: total session length based on current mode + store prefs
   sessionDuration = computed(() =>
-    this.mode() === 'work'
-      ? this.store.workMinutes() * 60
-      : this.store.breakMinutes() * 60,
+    this.mode() === 'work' ? this.store.workMinutes() * 60 : this.store.breakMinutes() * 60,
   );
 
   // Derived: MM:SS string for display

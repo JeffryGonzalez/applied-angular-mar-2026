@@ -1,0 +1,23 @@
+<app-ui-page title="Books Sorting Preferences">
+  <div class="grid gap-4 max-w-md">
+    <label class="flex flex-col">
+      <span class="font-bold">Sort by</span>
+      <select class="select select-bordered" [value]="sortKey()" (change)="setSortKey($any($event.target).value)">
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+        <option value="year">Year</option>
+      </select>
+    </label>
+
+    <label class="flex flex-col">
+      <span class="font-bold">Direction</span>
+      <select class="select select-bordered" [value]="sortDirection()" (change)="setSortDirection($any($event.target).value)">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </label>
+
+    <div class="text-sm text-slate-500">Saved preference: {{ sortKey() }} / {{ sortDirection() }}</div>
+    <a class="btn btn-primary btn-sm" routerLink="/books/list">Back to list</a>
+  </div>
+</app-ui-page>
