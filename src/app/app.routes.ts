@@ -48,6 +48,13 @@ const realRoutes: Routes = [
         (r) => r.textAnalyzerFeatureRoutes,
       ),
   },
+  {
+    path: 'pomodoro',
+    loadChildren: () =>
+      import('./areas/pomodoro/pomodoro-landing/pomodoro.routes').then(
+        (r) => r.pomodoroFeatureRoutes,
+      ),
+  },
 ];
 
 const devRoutes: Routes = [
