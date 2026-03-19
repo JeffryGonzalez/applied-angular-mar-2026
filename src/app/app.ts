@@ -125,5 +125,7 @@ export class App {
     { path: '/pomodorofinal', title: 'Pomodoro Final', icon: 'lucideTimer' },
 
     { path: '/text-analyzer-final', title: 'Text Analyzer Final', icon: 'lucideFileText' },
+
+    { path: '/pomodoro', title: 'Pomodoro', icon: 'lucideTimer' },
   ]);
 }
