@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { Home } from './internal/home';
-import { ListPage } from './internal/pages/list/list';
-import { StatsPage } from './internal/pages/stats/stats';
-import { PrefsPage } from './internal/pages/prefs/prefs';
-import { DetailsPage } from './internal/pages/details/details';
+import { BooksListPage } from './internal/pages/books/list/list';
+import { BooksStatsPage } from './internal/pages/books/stats/stats';
+import { BooksPrefsPage } from './internal/pages/books/prefs/prefs';
+import { BooksDetailsPage } from './internal/pages/books/details/details';
 
 export const booksFeatureRoutes: Routes = [
   {
@@ -18,19 +18,19 @@ export const booksFeatureRoutes: Routes = [
       },
       {
         path: 'list',
-        component: ListPage,
+        component: BooksListPage,
       },
       {
         path: 'stats',
-        component: StatsPage,
+        component: BooksStatsPage,
       },
       {
         path: 'prefs',
-        component: PrefsPage,
+        component: BooksPrefsPage,
       },
       {
         path: 'details/:id',
-        component: DetailsPage,
+        component: BooksDetailsPage,
       },
     ],
   },

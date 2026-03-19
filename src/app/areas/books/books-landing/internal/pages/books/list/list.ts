@@ -3,16 +3,16 @@ import { Component, computed, signal } from '@angular/core';
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { RouterLink } from '@angular/router';
-import { BooksApiItemModel } from '../../types';
+import { BooksApiItemModel } from '../../../types';
 
-type SortKey = 'title' | 'author' | 'year';
-type SortDirection = 'asc' | 'desc';
+type BooksSortKey = 'title' | 'author' | 'year';
+type BooksSortDirection = 'asc' | 'desc';
 
 const booksSortPreferenceKey = 'books-sort-preference';
 
 interface BooksSortPreference {
-  key: SortKey;
-  direction: SortDirection;
+  key: BooksSortKey;
+  direction: BooksSortDirection;
 }
 
 @Component({
@@ -21,11 +21,11 @@ interface BooksSortPreference {
   templateUrl: './list.html',
   styleUrls: ['./list.css'],
 })
-export class ListPage {
+export class BooksListPage {
   booksResource = httpResource<BooksApiItemModel[]>(() => '/api/books');
 
-  sortKey = signal<SortKey>('title');
-  sortDirection = signal<SortDirection>('asc');
+  sortKey = signal<BooksSortKey>('title');
+  sortDirection = signal<BooksSortDirection>('asc');
 
   books = computed(() => this.booksResource.value() || []);
 
@@ -80,7 +80,7 @@ export class ListPage {
     this.loadSortPreference();
   }
 
-  setSort(key: SortKey) {
+  setSort(key: BooksSortKey) {
     if (this.sortKey() === key) {
       this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
     } else {

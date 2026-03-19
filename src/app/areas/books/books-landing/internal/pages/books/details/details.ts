@@ -2,7 +2,7 @@ import { httpResource } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { BooksApiItemModel } from '../../types';
+import { BooksApiItemModel } from '../../../types';
 
 @Component({
   selector: 'app-books-pages-details',
@@ -10,7 +10,7 @@ import { BooksApiItemModel } from '../../types';
   templateUrl: './details.html',
   styleUrls: ['./details.css'],
 })
-export class DetailsPage {
+export class BooksDetailsPage {
   private route = inject(ActivatedRoute);
   bookId = this.route.snapshot.paramMap.get('id') ?? '';
 

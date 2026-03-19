@@ -2,7 +2,7 @@ import { httpResource } from '@angular/common/http';
 import { Component, computed } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { BooksApiItemModel } from '../../types';
+import { BooksApiItemModel } from '../../../types';
 
 @Component({
   selector: 'app-books-pages-stats',
@@ -10,7 +10,7 @@ import { BooksApiItemModel } from '../../types';
   templateUrl: './stats.html',
   styleUrls: ['./stats.css'],
 })
-export class StatsPage {
+export class BooksStatsPage {
   booksResource = httpResource<BooksApiItemModel[]>(() => '/api/books');
 
   stats = computed(() => {

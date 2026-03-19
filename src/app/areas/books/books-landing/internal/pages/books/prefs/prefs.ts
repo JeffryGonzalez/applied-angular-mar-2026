@@ -2,8 +2,8 @@ import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 
-type SortKey = 'title' | 'author' | 'year';
-type SortDirection = 'asc' | 'desc';
+type BooksSortKey = 'title' | 'author' | 'year';
+type BooksSortDirection = 'asc' | 'desc';
 
 const booksSortPreferenceKey = 'books-sort-preference';
 
@@ -13,36 +13,39 @@ const booksSortPreferenceKey = 'books-sort-preference';
   templateUrl: './prefs.html',
   styleUrls: ['./prefs.css'],
 })
-export class PrefsPage {
-  sortKey = signal<SortKey>('title');
-  sortDirection = signal<SortDirection>('asc');
+export class BooksPrefsPage {
+  sortKey = signal<BooksSortKey>('title');
+  sortDirection = signal<BooksSortDirection>('asc');
 
   constructor() {
     this.load();
   }
 
-  setSortKey(key: SortKey) {
+  setSortKey(key: BooksSortKey) {
     this.sortKey.set(key);
     this.save();
   }
 
-  setSortDirection(direction: SortDirection) {
+  setSortDirection(direction: BooksSortDirection) {
     this.sortDirection.set(direction);
     this.save();
   }
 
   private save() {
-    localStorage.setItem(booksSortPreferenceKey, JSON.stringify({
-      key: this.sortKey(),
-      direction: this.sortDirection(),
-    }));
+    localStorage.setItem(
+      booksSortPreferenceKey,
+      JSON.stringify({
+        key: this.sortKey(),
+        direction: this.sortDirection(),
+      }),
+    );
   }
 
   private load() {
     try {
       const raw = localStorage.getItem(booksSortPreferenceKey);
       if (!raw) return;
-      const pref = JSON.parse(raw) as { key: SortKey; direction: SortDirection };
+      const pref = JSON.parse(raw) as { key: BooksSortKey; direction: BooksSortDirection };
       if (pref?.key && pref?.direction) {
         this.sortKey.set(pref.key);
         this.sortDirection.set(pref.direction);
