@@ -17,6 +17,10 @@ export const pomodoroFeatureRoutes: Routes = [
         title: 'Timer',
         component: TimerPage,
       },
+      {
+        path: 'prefs',
+        title: 'Settings',
+      },
     ],
   },
 ];

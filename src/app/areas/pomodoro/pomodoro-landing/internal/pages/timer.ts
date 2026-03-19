@@ -1,5 +1,6 @@
 import { Component, signal, computed, inject, DestroyRef, effect } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
+import { pomodoroStore } from './../../store';
 
 @Component({
   selector: 'app--pages-',
@@ -54,13 +55,16 @@ export class TimerPage {
     });
   }
 
+  store = inject(pomodoroStore);
   private destroyRef = inject(DestroyRef);
   private intervalId: ReturnType<typeof setInterval> | null = null;
 
   isRunning = signal(false);
   mode = signal<'work' | 'break'>('work');
-  secondsRemaining = signal(25 * 60); // 1500 seconds = 25 minutes
-  sessionDuration = computed(() => (this.mode() === 'work' ? 25 * 60 : 5 * 60));
+  secondsRemaining = signal(this.store.workMinutes() * 60);
+  sessionDuration = computed(() =>
+    this.mode() === 'work' ? this.store.workMinutes() * 60 : this.store.breakMinutes() * 60,
+  );
   //sessionDuration = computed(() => (this.mode() === 'work' ? 5 : 5 * 60));
   startLabel = computed(() => (this.isRunning() ? 'Pause' : 'Start'));
 
